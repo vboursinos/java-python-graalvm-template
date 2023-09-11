@@ -10,7 +10,12 @@ public class RunGraalPython3 {
     // For future when jar can have all Python env, venv/**/* must be included into resources in pom.xml
     //private static String VENV_EXECUTABLE = RunGraalPython3.class.getClassLoader().getResource(Paths.get("venv", "bin", "graalpython").toString()).getPath();
     private static String SOURCE_FILE_NAME = "health.py";
+    private static String SOURCE_FILE_NAME2 = "chardet.py";
+    private static String SOURCE_FILE_NAME3 = "idna.py";
+
     private static InputStream SOURCE_FILE_INPUT = RunGraalPython3.class.getClassLoader().getResourceAsStream(SOURCE_FILE_NAME);
+    private static InputStream SOURCE_FILE_INPUT2 = RunGraalPython3.class.getClassLoader().getResourceAsStream(SOURCE_FILE_NAME2);
+    private static InputStream SOURCE_FILE_INPUT3 = RunGraalPython3.class.getClassLoader().getResourceAsStream(SOURCE_FILE_NAME3);
 
     public static void log(String s){
         System.out.println(s);
@@ -25,7 +30,7 @@ public class RunGraalPython3 {
 
         String pyFilename = "./health.py";
 
-        Path path = Paths.get("venv", "bin", "graalpython");
+        Path path = Paths.get("venv", "bin", "graalpy");
         if (path==null){
             log("venv/ is not yet copied under target/classes/, run `mvn process-resources` or any next maven phase,");
         }
@@ -65,6 +70,23 @@ public class RunGraalPython3 {
             }
             context.eval(source);
 
+            InputStreamReader reader2 = new InputStreamReader(SOURCE_FILE_INPUT2);
+            Source source2;
+            try {
+                source2 = Source.newBuilder(PYTHON, reader2, SOURCE_FILE_NAME2).build();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            context.eval(source2);
+
+            InputStreamReader reader3 = new InputStreamReader(SOURCE_FILE_INPUT3);
+            Source source3;
+            try {
+                source3 = Source.newBuilder(PYTHON, reader3, SOURCE_FILE_NAME3).build();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            context.eval(source3);
 
         }
     }
