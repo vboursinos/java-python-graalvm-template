@@ -152,6 +152,7 @@
                                     </arguments>
                                     <environmentVariables>
                                         <VIRTUAL_ENV>${project.basedir}/${venv.name}</VIRTUAL_ENV>
+                                        <PIP_CONFIG_FILE>${project.basedir}/pip.conf</PIP_CONFIG_FILE>
                                     </environmentVariables>
                                 </configuration>
                             </execution>
